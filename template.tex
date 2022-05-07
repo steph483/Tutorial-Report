@@ -1,0 +1,71 @@
+\documentclass[11pt,twocolumn]{article} 
+
+% required packages for Oxy Comps style
+\usepackage{oxycomps} % the main oxycomps style file
+\usepackage{times} % use Times as the default font
+\usepackage[style=numeric,sorting=nyt]{biblatex} % format the bibliography nicely
+
+\usepackage{amsfonts} % provides many math symbols/fonts
+\usepackage{listings} % provides the lstlisting environment
+\usepackage{amssymb} % provides many math symbols/fonts
+\usepackage{graphicx} % allows insertion of grpahics
+\usepackage{hyperref} % creates links within the page and to URLs
+\usepackage{url} % formats URLs properly
+\usepackage{verbatim} % provides the comment environment
+\usepackage{xpatch} % used to patch \textcite
+
+\bibliography{references}
+\DeclareNameAlias{default}{last-first}
+
+\xpatchbibmacro{textcite}
+  {\printnames{labelname}}
+  {\printnames{labelname} (\printfield{year})}
+  {}
+  {}
+
+\pdfinfo{
+    /Title (Unity Setup and Hand Tracking Tutoria)
+    /Author (Stephanie Enriquez Isais)
+}
+
+\title{Unity Setup and Hand Tracking Tutorial}
+
+\author{Stephanie Enriquez Isais}
+\affiliation{Occidental College}
+\email{senriquezisa@oxy.edu}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    This paper discusses the preliminary tutorial we completed to better understand our senior comps proposal. I decided to choose two Unity tutorials because that will be the majority of what my project consists of. One of them discussed how to start a basic VR Unity document and the other showcased how to implement hand tracking in Unity. I used a YouTube tutorial from Justin P Barnett \cite{vrsetup2022}. 
+\end{abstract}
+
+\section{Methods}
+I first began by installing the Android Build support and Windows build support. I created a new 3D project but I didn’t choose the VR template because it doesn’t have the XR interaction toolkit and this facilitates the implementation of interactions in VR. Therefore, I just created a blank 3D project. 
+
+
+\subsection{Settings}
+The first part was to edit the Unity settings so that my project would work with the Meta Quest headset. This included installing the XR Plug-in management and I chose the Open XR option because it standardizes the project I made so that it can run on various headsets. This will use the new Unity input system instead of the former. I then added the interaction profile for the Oculus headset because this is what I will be using for my project. For my final project I can add more headsets. I decided to keep my render mode to single pass because it is easier on my computer but for my final project this will be changed to multi pass so that it has better quality. I then downloaded the XR Interaction toolkit in the Package Manager section of Unity. This comes with sample inputs that can be used to navigate the scene. I added all preset inputs to the program so that I can use both the controllers. This brought up the possible input actions for the headset, left and right controllers. This can be used later on when I am scripting more complex interactions and I have to call on a certain controller.
+
+\subsection{Scene Setup}
+After I was done with the settings I was able to work on building my basic scene. I first added a plane to the scene. Then using the XR section, I was able add the XR origin (action based), which is my full set up controller. This is different from the XR origin because that is just the head and the actions based version includes controller usage. The action based XR origin added a XR Interaction Manager from which I added an input action manager so I can include the presets previously mentioned. It also added a XR origin game object that has a XR origin script which is what controls the Main Camera, left and right controllers. I then ran the program (with my Quest linked) and was able to see the plane and have control over my controllers.
+
+
+\subsection{Locomotion}
+Next I worked on adding a locomotion system. I did this by first adding a new game object from the XR section called Locomotion system (action based). I dragged and dropped my XR origin so it would know where I stand. It comes with a teleportation and snap-and-turn scripts. The snap-and-turn has public variables that can be edited to make the turns adjust to my needs. I then added a Teleportation area script to my plane so that I would be able to teleport anywhere on it. There is also an option to limit the player’s movement only to specific spots. I added a new material to the ground since the teleportation uses white indicators and they blend into the default white plane material. When testing this, it worked well since I was able to snap to look around and teleport. I then proceeded to add a continuous move and continuous turn script to the Locomotion gameobject so that I could continuously move around. These come with variables that can be changed, like the move speed. I also changed the script so that only the right hand would use continuous move and turn. This is because in most games only one hand does the continuous movement. When I tested this out, I was able to move around, thankfully I had no motion sickness from this. The continuous movement is more like floating but in most first person VR games, this is what is used since users don’t usually have the space to physically walk around.
+
+\subsection{Picking Objects Up}
+In order to test picking things up I added a couple of cubes and spheres to the scene. To make them intractable, I added a XR Grab Interactable script. This also adds a rigid body so I don’t have to adjust the settings for that (usually when creating an object that is untraceable you have to manually add a rigidbody). I also smoothed the position and rotation variables on the XR Grab Interactable script of each intractable object so that it would be a more smooth and comfortable experience. For the picking up mechanic, I added a pure velocity tracking  to the XR Grab Interactive script so that it would be sent to my hand in a more realistic manner (other options included it just teleporting to my hand). When I tested this out, I was able to select components with the lasers coming out of my hands and when I selected one of the objects they would fly to me. I could also toss them around. To make sure I don’t move the object I’m holding as I move around, I unchecked anchor control in the XR origin game component’s right and left controllers. I also added a script to the objects so that they would change colors when they bumped into each other. I did this by adding a “interactable” tag to each intractable object. Then in the script, I added a onCollisionEnter() method that detects when the object it is attached to has collided with something. Inside the method, if the other object it collided into had the “interactable” tag, it changes the color of the other gameobject from red to green. If the other object is already green then back to red. This was not part of the tutorial but I wanted to use the existing knowledge I have about Unity. 
+
+\section{Evaluation Metrics}
+Although the first tutorial was a very basic set up, it still included the basic movement and locomotion mechanics that I will need to set up when making a VR project. I was also able to test it out using my Meta Quest headset, therefore, it allowed me to get a better sense of how Unity VR projects feel like in VR. This tutorial did a great job at explaining each step and the reasoning behind it. An example of this is the explanation they provided for setting up the unity project. They would explain the current way to do it and the former way as well. This is useful because some of the VR Unity tutorials that I use later on might be in an earlier version but after the explanation provided by the tutorial, I am confident that I will know how to integrate it into my project. 
+
+
+\section{Results and Discussion}
+Overall, I was only able to make a very basic unity VR setup because my computer would keep restarting if I tried to do more complex things. Even still, it was very useful to do this because after taking the game design class I have a good understanding of how unity works and how to get certain interactions to happen. I previously had no idea how the VR locomotion and controllers would come into play but after this tutorial, I know how they work and how I can combine my Unity knowledge with this new knowledge to make more complex VR interactions in Unity. I was able to test this by implementing a short script to the intractable game objects in the scene. More importantly, this tutorial taught me how to make changes to the Locomotion settings and I spent a good amount of time messing around with them and trying to get something that felt more natural. I think that this will become especially useful to my project because one of the goals I have and evaluation criteria I will be using is to see if I can reduce motion sickness as much as possible. 
+
+\printbibliography 
+
+\end{document}
